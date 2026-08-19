@@ -23,14 +23,15 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Power")
 	EPowerRole Role = EPowerRole::Consumer;
-
-	// Producers: how much this can output. Consumers: how much this wants to draw.
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Power")
 	float PowerAmount = 10.f;
 	
 	UPROPERTY(ReplicatedUsing=OnRep_IsPowered, BlueprintReadOnly, Category="Power")
 	bool bIsPowered = true;
 	
+	UPROPERTY(ReplicatedUsing=OnRep_IsFunctional, BlueprintReadOnly, Category="Power")
+	bool bIsFunctional = true;
 	
 protected:
 	// Called when the game starts
@@ -38,8 +39,14 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
-	UFUNCTION()
+	UFUNCTION() 
 	void OnRep_IsPowered();
+	
+	UFUNCTION() 
+	void OnRep_IsFunctional();
+	
+	UFUNCTION() 
+	void Repair();
 
 	// Called by the subsystem when this consumer's supply status changes
 	friend class UPowerGridSubsystem;
@@ -50,6 +57,12 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category="Power")
 	void OnPowerRestored();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Power")
+	void OnFunctionRestored();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="Power")
+	void OnFunctionLost();
 	
 public:	
 	// Called every frame

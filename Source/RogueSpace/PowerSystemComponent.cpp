@@ -62,11 +62,31 @@ void UPowerSystemComponent::OnRep_IsPowered()
 			OnPowerLost();
 		}
 }
+void UPowerSystemComponent::OnRep_IsFunctional()
+{
+	if (bIsFunctional)
+	{
+		OnFunctionRestored();
+	}
+	else
+	{
+		OnFunctionLost();
+	}
+}
+
+void UPowerSystemComponent::Repair()
+{
+	if (GetOwner() && GetOwner()->HasAuthority()) //If GetOwner exists and the pointer that returns GetOwner's HasAuthority member function (checked this way to avoid a null derefence which would result in a crash)
+	{
+		bIsFunctional = true;
+	}
+}
 
 void UPowerSystemComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UPowerSystemComponent, bIsPowered);
+	DOREPLIFETIME(UPowerSystemComponent, bIsPowered); //Registering bIsPowered for replication
+	DOREPLIFETIME(UPowerSystemComponent, bIsFunctional); //Same here
 }
 
 // Called every frame

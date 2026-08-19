@@ -38,6 +38,12 @@ void UPowerGridSubsystem::Unregister(UPowerSystemComponent* Component)
 
 void UPowerGridSubsystem::RecalculateGrid()
 {
-	// Deliberately empty for now — this is the priority-ordered distribution
-	// logic, the actual interesting design surface. Filling it in next.
+float TotalSupply = 0.0f;   //Total power supply is 0
+	for (const TObjectPtr<UPowerSystemComponent>& Producer : Producers) //For each CONST REFERENCE to Producer : Producers (marked by the &, a reference to the actual element in the array, not copying it out of there; more efficitent) (This pointer is CONST, not the element in the array)
+	{
+		if (Producer && Producer->bIsFunctional) //null protection &&
+		{
+			TotalSupply += Producer->PowerAmount;
+		}
+	}
 }
