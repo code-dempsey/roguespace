@@ -32,21 +32,21 @@ public:
 	
 	UPROPERTY(ReplicatedUsing=OnRep_IsFunctional, BlueprintReadOnly, Category="Power")
 	bool bIsFunctional = true;
+		
+	UFUNCTION(BlueprintCallable, Category="Power") 
+	void Repair();
 	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;  //virtual means this function can be overridden by a derived class. C++ looks up which version to run based on object's real type at runtime.
 	
 	UFUNCTION() 
 	void OnRep_IsPowered();
 	
 	UFUNCTION() 
 	void OnRep_IsFunctional();
-	
-	UFUNCTION() 
-	void Repair();
 
 	// Called by the subsystem when this consumer's supply status changes
 	friend class UPowerGridSubsystem;
@@ -67,6 +67,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 		
 };

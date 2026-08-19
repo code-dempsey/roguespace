@@ -39,7 +39,7 @@ void UPowerGridSubsystem::Unregister(UPowerSystemComponent* Component)
 void UPowerGridSubsystem::RecalculateGrid()
 {
 float TotalSupply = 0.0f;   //Total power supply is 0
-	for (const TObjectPtr<UPowerSystemComponent>& Producer : Producers) //For each CONST REFERENCE to Producer : Producers (marked by the &, a reference to the actual element in the array, not copying it out of there; more efficitent) (This pointer is CONST, not the element in the array)
+	for (const TObjectPtr<UPowerSystemComponent>& Producer : Producers) //For each CONST REFERENCE to Producer : Producers (marked by the &, a reference to the actual element in the array, not copying it out of there; more efficient) (This pointer is CONST, not the element in the array)
 	{
 		if (Producer && Producer->bIsFunctional) //null protection &&
 		{
